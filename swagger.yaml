@@ -1,0 +1,78 @@
+openapi: 3.0.0
+info:
+  title: Fullstack Assessment API
+  version: 1.0.0
+paths:
+  /brands:
+    get:
+      summary: Get all brands
+      responses:
+        "200":
+          description: A list of brands
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    logoPath:
+                      type: string
+  /products:
+    get:
+      summary: Get all products
+      responses:
+        "200":
+          description: A list of products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    price:
+                      type: number
+    post:
+      summary: Create a new product
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                price:
+                  type: number
+                upc12:
+                  type: number
+                brandId:
+                  type: number
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  price:
+                    type: number
+                  upc12:
+                    type: number
+                  brandId:
+                    type: number
