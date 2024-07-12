@@ -1,19 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const { Product, Brand } = require('../models');
-
+const checkUpc12Exists = require('../middlewares/checkUpc12Exists');
 
 // Create a new product
-router.post('/', async (req, res) => {
+router.post('/', checkUpc12Exists, async (req, res) => {
   try {
       const { name, price, upc12, brandId } = req.body;
       
-      // Check if upc12 is already used
-      const existingProduct = await Product.findOne({ where: { upc12 } });
-      if (existingProduct) {
-        return res.status(400).json({ error: `UPC12 '${upc12}' already exists.` })
-      }
-
       const newProduct = await Product.create({ name, price, upc12, brandId });
       res.status(201).json(newProduct);
   } catch (err) {
