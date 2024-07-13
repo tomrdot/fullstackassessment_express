@@ -1,79 +1,57 @@
 const express = require('express');
 const router = express.Router();
-const { Product, Brand } = require('../models');
 const checkUpc12Exists = require('../middlewares/checkUpc12Exists');
+const productService = require('../services/productService');
 
-// Create a new product
-router.post('/', checkUpc12Exists, async (req, res) => {
+// CREATE A NEW PRODUCT
+// checkUpc12Exists IS MIDDLEWARE TO CHECK IF ALREADY EXIST
+router.post('/', checkUpc12Exists, async (req, res, next) => {
   try {
-      const { name, price, upc12, brandId } = req.body;
-      
-      const newProduct = await Product.create({ name, price, upc12, brandId });
-      res.status(201).json(newProduct);
+      const product = await productService.createProduct(req, res);
+      res.status(201).json(product);
   } catch (err) {
-      res.status(500).json({ error: err.message });
+    next(err);
   }
 });
 
-// Read all products
-router.get('/', async (req, res) => {
+// GET ALL PRODUCTS BY PAGINATION
+router.get('/', async (req, res, next) => {
   try {
-    const products = await Product.findAll({
-      include: [Brand]
-    });
+    const { search, page, limit } = req.query;
+    const products = await productService.getProducts(search, page, limit);
     res.json(products);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  } catch (error) {
+    next(err);
   }
 });
 
-// Read a specific product by ID
-router.get('/:id', async (req, res) => {
+// GET SINGLE PRODUCT BY ID
+router.get('/:id', async (req, res, next) => {
   try {
-    const product = await Product.findByPk(req.params.id, {
-      include: [Brand]
-    });
-    if (!product) {
-      return res.status(404).json({ error: 'Product not found' });
-    }
+    const product = await productService.getProduct(req, res);
     res.json(product);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    next(err);
   }
 });
 
-// Update a product by ID
-router.put('/:id', async (req, res) => {
+// UPDATE SINGLE PRODUCT BY ID AND BODY
+router.put('/:id', async (req, res, next) => {
   try {
-    const { name, price, upc12, brandId } = req.body;
-    const [updated] = await Product.update({ name, price, upc12, brandId }, {
-      where: { id: req.params.id }
-    });
-    if (!updated) {
-      return res.status(404).json({ error: 'Product not found' });
-    }
-    const updatedProduct = await Product.findByPk(req.params.id);
-    res.json(updatedProduct);
+    const product = await productService.updateProduct(req, res);
+    res.json(product);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    next(err);
   }
 });
 
-// Delete a product by ID
-router.delete('/:id', async (req, res) => {
+// SOFT DELETE SINGLE PRODUCT BY ID
+router.delete('/:id', async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const product = await Product.findByPk(id);
-
-    if (!product) {
-      return res.status(404).json({ error: 'Product not found' });
-    }
-
-    await product.destroy();
-
-    res.json({ message: 'Product deleted successfully' });
+    const product = await productService.softDeleteProduct(req, res);
+    res.json(product);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    next(err);
   }
 });
 

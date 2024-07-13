@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { Product, Brand } = require('../models');
+const { Product, Brand, Sequelize } = require('../models');
+const { fn, col, literal } = Sequelize;
 
 
 // Create a new brand
@@ -17,17 +18,35 @@ router.post('/', async (req, res) => {
       const newProduct = await Product.create({ name, price, upc12, brandId });
       res.status(201).json(newProduct);
   } catch (err) {
-      res.status(500).json({ error: err.message });
+    next(err);
   }
 });
 
 // Read all brands
-router.get('/', async (req, res) => {
+router.get('/', async (req, res, next) => {
   try {
-    const brands = await Brand.findAll();
+    const brands = await Brand.findAll({
+      attributes: {
+        include: [
+          [
+            fn('COUNT', col('Products.id')),
+            'productCount'
+          ]
+        ]
+      },
+      include: [{
+        model: Product,
+        attributes: [],
+        required: false,
+        where: {
+          deletedAt: null
+        }
+      }],
+      group: ['Brand.id']
+    });
     res.json(brands);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    next(err);
   }
 });
 
