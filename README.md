@@ -13,6 +13,7 @@ Steps to run Express:
 
 
 DotEnv
+
 <img width="678" alt="Screenshot 2024-07-14 at 7 49 01 PM" src="https://github.com/user-attachments/assets/6a8c17ba-bd5c-423f-8244-9cc85f079beb">
 
 Database Migrations
