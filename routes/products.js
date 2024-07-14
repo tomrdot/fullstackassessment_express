@@ -1,11 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const checkUpc12Exists = require('../middlewares/checkUpc12Exists');
+const checkUpc12Numbers = require('../middlewares/checkUpc12Numbers');
 const productService = require('../services/productService');
 
 // CREATE A NEW PRODUCT
 // checkUpc12Exists IS MIDDLEWARE TO CHECK IF ALREADY EXIST
-router.post('/', checkUpc12Exists, async (req, res, next) => {
+// checkUpc12Numbers IS MIDDLEWARE TO CHECK IF ONLY NUMBERS INPUT
+router.post('/', [checkUpc12Numbers, checkUpc12Exists], async (req, res, next) => {
   try {
       const product = await productService.createProduct(req, res);
       res.status(201).json(product);
@@ -17,11 +19,11 @@ router.post('/', checkUpc12Exists, async (req, res, next) => {
 // GET ALL PRODUCTS BY PAGINATION
 router.get('/', async (req, res, next) => {
   try {
-    const { search, page, limit } = req.query;
-    const products = await productService.getProducts(search, page, limit);
+    const { search, page, limit, sortBy, sortOrder } = req.query;
+    const products = await productService.getProducts(search, page, limit, sortBy, sortOrder);
     res.json(products);
   } catch (error) {
-    next(err);
+    next(error);
   }
 });
 
@@ -36,7 +38,7 @@ router.get('/:id', async (req, res, next) => {
 });
 
 // UPDATE SINGLE PRODUCT BY ID AND BODY
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', [checkUpc12Numbers,checkUpc12Exists], async (req, res, next) => {
   try {
     const product = await productService.updateProduct(req, res);
     res.json(product);

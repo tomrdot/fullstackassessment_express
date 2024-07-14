@@ -8,7 +8,7 @@ async function createProduct(req, res) {
   const product = await Product.create({ name, price, upc12, brandId });
   return { product }
 }
-async function getProducts(search, page = 1, limit = 10) {
+async function getProducts(search, page = 1, limit = 20, sortBy = 'name', sortOrder = 'ASC') {
 
   const offset = (page - 1) * limit;
   let whereClause = {};
@@ -22,9 +22,17 @@ async function getProducts(search, page = 1, limit = 10) {
     };
   }
 
+  let orderClause = [];
+  if (sortBy === 'name') {
+    orderClause = [['name', sortOrder]];
+  } else if (sortBy === 'Brand') {
+    orderClause = [[{ model: Brand, as: 'Brand' }, 'name', sortOrder]];
+  }
+
   const { count, rows } = await Product.findAndCountAll({
     where: whereClause,
     include: [Brand],
+    order: orderClause,
     limit: parseInt(limit, 10),
     offset: parseInt(offset, 10)
   });
