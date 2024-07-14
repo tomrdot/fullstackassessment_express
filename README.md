@@ -52,6 +52,10 @@ Swagger API Docs
 <img width="1355" alt="Screenshot 2024-07-14 at 7 59 10 PM" src="https://github.com/user-attachments/assets/b1fee8d7-8bc0-4598-a10a-b6763695b7b2">
 
 
+Database Normalization (brand)
+
+<img width="1230" alt="Screenshot 2024-07-14 at 8 00 13 PM" src="https://github.com/user-attachments/assets/3eb374c5-9734-4ec9-bba1-0edb4b3a3bc4">
+
 
 **Stacks**
 Express
