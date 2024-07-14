@@ -10,7 +10,6 @@ const checkUpc12Exists = async (req, res, next) => {
       upc12
     };
 
-    console.log(id)
     if (id) {
       whereCondition.id = { [Op.ne]: id };
     }
