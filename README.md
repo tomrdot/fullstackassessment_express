@@ -12,7 +12,7 @@ Steps to run Express:
 10. Access swagger api -> localhost:3000/api-docs
 
 
-DotEnv
+DotEnv Config
 
 <img width="678" alt="Screenshot 2024-07-14 at 7 49 01 PM" src="https://github.com/user-attachments/assets/6a8c17ba-bd5c-423f-8244-9cc85f079beb">
 
