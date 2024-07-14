@@ -46,6 +46,13 @@ Model
 
 <img width="613" alt="Screenshot 2024-07-14 at 7 48 35 PM" src="https://github.com/user-attachments/assets/aa6519b5-8a0d-49cf-806f-acd98f84b6e4">
 
+
+Swagger API Docs
+
+<img width="1355" alt="Screenshot 2024-07-14 at 7 59 10 PM" src="https://github.com/user-attachments/assets/b1fee8d7-8bc0-4598-a10a-b6763695b7b2">
+
+
+
 **Stacks**
 Express
 Sequelize
