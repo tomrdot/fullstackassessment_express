@@ -7,6 +7,7 @@
     "dev": "nodemon ./bin/www",
     "db:migrate": "npx sequelize-cli db:migrate",
     "db:migrate:undo": "npx sequelize-cli db:migrate:undo",
+    "db:migrate:revert": "npx sequelize-cli db:migrate:undo",
     "seed:brands": "npx sequelize-cli db:seed --seed 20240712145449-seed-brands"
   },
   "dependencies": {

@@ -12,6 +12,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var productsRouter = require('./routes/products');
 var brandsRouter = require('./routes/brands');
+var vehiclesRouter = require('./routes/vehicles');
+// var vehicleTypesRouter = require('./routes/vehicleTypesRouter');
 
 const cors = require('cors');
 
@@ -41,6 +43,8 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/products', productsRouter);
 app.use('/brands', brandsRouter);
+app.use('/vehicles', vehiclesRouter);
+// app.use('/vehicleTypes', vehicleTypesRouter);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // catch 404 and forward to error handler
